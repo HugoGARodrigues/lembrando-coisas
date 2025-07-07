@@ -1,2 +1,34 @@
 # lembrando-coisas
 Lembrando coisas
+A[Início] --> B{Inicializar:};
+    B --> C{Gerar estado inicial aleatório (best) com 8 rainhas e calcular fitness (best_eval)};
+    C --> D{current = best};
+    D --> E{current_eval = best_eval};
+    E --> F{n_moves_without_improvement = 0};
+    F --> G{Loop por `n_iterations` (até 5000 iterações)};
+    G --> H{Calcular temperatura `t = temperature / (i + 1)`};
+    H --> I{Gerar um vizinho (candidate) a partir de current (movendo uma das 8 rainhas)};
+    I --> J{Calcular fitness de candidate (candidate_eval)};
+    J{candidate_eval == 0?} -->|Sim| K[Retornar candidate, candidate_eval, i+1];
+    J -->|Não| L{candidate_eval < current_eval?};
+    L -->|Sim| M{current = candidate};
+    M --> N{current_eval = candidate_eval};
+    N --> O{n_moves_without_improvement = 0};
+    O --> P{candidate_eval < best_eval?};
+    P -->|Sim| Q{best = candidate};
+    Q --> R{best_eval = candidate_eval};
+    R --> G;
+    P -->|Não| G;
+    L -->|Não| S{random() < exp((current_eval - candidate_eval) / t)?};
+    S -->|Sim| T{current = candidate};
+    T --> U{current_eval = candidate_eval};
+    U --> V{n_moves_without_improvement = 0};
+    V --> W{candidate_eval < best_eval?};
+    W -->|Sim| Q;
+    W -->|Não| G;
+    S -->|Não| X{n_moves_without_improvement++};
+    X --> Y{n_moves_without_improvement >= 500?};
+    Y -->|Sim| Z[Retornar best, best_eval, i+1];
+    Y -->|Não| G;
+    K --> End[Fim];
+    Z --> End;
