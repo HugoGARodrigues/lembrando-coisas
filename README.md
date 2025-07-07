@@ -1,6 +1,7 @@
 # lembrando-coisas
 Lembrando coisas
-A[Início] --> B{Inicializar:};
+graph TD
+    A[Início] --> B{Inicializar:};
     B --> C{Gerar estado inicial aleatório (best) com 8 rainhas e calcular fitness (best_eval)};
     C --> D{current = best};
     D --> E{current_eval = best_eval};
